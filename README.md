@@ -1,2 +1,2 @@
 # .NET-Core-EF-MySql-Swagger
-Microserviço REST com Entity Framework, MySql e Swagger.
+Microserviço REST utilizando .NET Core 2 com Entity Framework, MySql e Swagger.
