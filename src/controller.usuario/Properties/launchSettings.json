@@ -1,0 +1,32 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:55599/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "UMBLER_CONNECTION": "server=mysql552.umbler.com;port=41890;database=dbloja;uid=dbloja;password=8mj*[(Wav?SJ3",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "MYSQL_CONNECTION": "server=localhost;port=3306;database=dbloja;uid=root;password=123456"
+      }
+    },
+    "incommerce-controller-usuario": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "MYSQL_CONNECTION": "server=localhost;port=3306;database=dbloja;uid=root;password=123456"
+      },
+      "applicationUrl": "http://localhost:55600/"
+    }
+  }
+}

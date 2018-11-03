@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+
+  controller-usuario:
+    image: incommerce/controllers/usuario:latest
+    build:
+      context: .
+      dockerfile: controller.usuario/Dockerfile
+    container_name: incommerce_controller_usuario
+    ports:
+      - "8080:80"
+    environment:
+#      - MSQL_CONNECTION=server=localhost;port=3306;database=dbloja;uid=root;password=123456
+      DATABASE_CONNECTION: "server=mysql552.umbler.com;port=41890;database=dbloja;uid=dbloja;password=8mj*[(Wav?SJ3"
