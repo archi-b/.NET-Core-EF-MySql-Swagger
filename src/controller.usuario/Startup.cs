@@ -5,10 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.PlatformAbstractions;
-using Swashbuckle.AspNetCore.Swagger;
 using System;
-using System.IO;
 
 namespace incommerce.controller.usuario
 {
@@ -30,37 +27,11 @@ namespace incommerce.controller.usuario
 
             services.AddDbContext<DBContext>(options =>
                    options.UseMySql(
-                       Environment.GetEnvironmentVariable("MYSQL_CONNECTION")
+                       Environment.GetEnvironmentVariable("DATABASE_CONNECTION")
                    ));
 
             services.AddMvc();
-
-            //// Configurando o serviço de documentação do Swagger
-            SwaggerConfig swagger = new SwaggerConfig();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc(swagger.Version,
-                    new Info
-                    {
-                        Title = swagger.Title,
-                        Version = swagger.Version,
-                        Description = swagger.Description,
-                        Contact = new Contact
-                        {
-                            Name = swagger.Contact,
-                            Url = swagger.Url
-                        }
-                    });
-
-                string caminhoAplicacao =
-                    PlatformServices.Default.Application.ApplicationBasePath;
-                string nomeAplicacao =
-                    PlatformServices.Default.Application.ApplicationName;
-                string caminhoXmlDoc =
-                    Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
-
-                c.IncludeXmlComments(caminhoXmlDoc);
-            });
+            services.AddSwaggerGen(new SwaggerConfig().ConfigureServiceSwaggerGen());
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -71,14 +42,8 @@ namespace incommerce.controller.usuario
             }
 
             app.UseMvc();
-
-            // Ativando middlewares para uso do Swagger
-            SwaggerConfig swagger = new SwaggerConfig();
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint($"/swagger/{swagger.Version}/swagger.json", swagger.Title);
-            });
+            app.UseSwaggerUI(new SwaggerConfig().ConfigureSwaggerUI());
         }
     }
 }

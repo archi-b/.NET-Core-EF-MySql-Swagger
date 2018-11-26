@@ -1,19 +1,17 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/aspnetcore-build:2.0 AS build
-WORKDIR /src
-COPY controller.usuario/controller.usuario.csproj controller.usuario/
-RUN dotnet restore controller.usuario/controller.usuario.csproj
-COPY . .
-WORKDIR /src/controller.usuario
-RUN dotnet build controller.usuario.csproj -c Release -o /app
+# Copiar csproj e restaurar dependencias
+COPY *.csproj ./
+RUN dotnet restore
 
-FROM build AS publish
-RUN dotnet publish controller.usuario.csproj -c Release -o /app
+# Build da aplicacao
+COPY . ./
+RUN dotnet publish -c Release -o out
 
-FROM base AS final
+# Build da imagem
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
 WORKDIR /app
-COPY --from=publish /app .
+COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "controller.usuario.dll"]

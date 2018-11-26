@@ -1,0 +1,9 @@
+{
+  "SwaggerConfig": {
+    "version": "v1",
+    "title": "Microservice controller.usuario",
+    "description": "API REST criada com o ASP.NET Core",
+    "contact": "jeisonmp",
+    "url": "https://github.com/archi-b"
+  }
+}

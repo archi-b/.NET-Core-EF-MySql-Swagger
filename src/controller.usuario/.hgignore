@@ -1,0 +1,9 @@
+syntax: glob
+Release
+Debug
+Obj
+*.user
+bin
+obj
+.vs
+.idea

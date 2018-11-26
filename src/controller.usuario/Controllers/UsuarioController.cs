@@ -1,6 +1,7 @@
 ﻿using controller.usuario.Controllers;
 using controller.usuario.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -225,12 +226,14 @@ namespace incommerce.controller.usuario
         {
             try
             {
+                /// TODO: Verificar se precisa.
                 /// Desabilita RequireAttribute
-                // db.Configuration.ValidateOnSaveEnabled = false;
+                //db.Configuration.ValidateOnSaveEnabled = false;
 
+                /// TODO: Verificar se essa relacao funcionara no .NET Core
                 /// Remove todas as relacoes com as marcas desse usuário.
-                //db.UsuarioMarcas.Where(o => o.IDUsuario.Equals(id)).ToList()
-                //    .ForEach(o => db.UsuarioMarcas.Remove(o));
+                db.UsuarioMarcas.Where(o => o.Idusuario.Equals(id)).ToList()
+                    .ForEach(o => db.UsuarioMarcas.Remove(o));
             }
             catch
             {
