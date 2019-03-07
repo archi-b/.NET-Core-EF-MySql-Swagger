@@ -18,23 +18,19 @@ namespace controller.usuario.Model
         public virtual DbSet<Usuarios> Usuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        { }
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuarios>(entity =>
             {
-                entity.HasKey(e => e.Idusuario);
+                entity.HasKey(e => e.Idusuario)
+                    .HasName("PRIMARY");
 
                 entity.HasIndex(e => e.Email)
                     .HasName("Email_UNIQUE")
                     .IsUnique();
-
-                entity.HasIndex(e => e.Idperfil)
-                    .HasName("fk_Usuarios_Perfis1_idx");
-
-                entity.HasIndex(e => e.Idrevendedora)
-                    .HasName("fk_Usuario_Revendedora1_idx");
 
                 entity.HasIndex(e => e.Login)
                     .HasName("Login_UNIQUE")
@@ -48,15 +44,9 @@ namespace controller.usuario.Model
 
                 entity.Property(e => e.Email).HasColumnType("varchar(100)");
 
-                entity.Property(e => e.Idperfil)
-                    .HasColumnName("IDPerfil")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Idrevendedora)
-                    .HasColumnName("IDRevendedora")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.IndAtivo).HasDefaultValueSql("'1'");
+                entity.Property(e => e.IndAtivo)
+                    .HasColumnType("tinyint(1)")
+                    .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.Login)
                     .IsRequired()

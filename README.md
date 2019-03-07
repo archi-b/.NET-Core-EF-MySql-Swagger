@@ -7,5 +7,7 @@ Microserviço REST utilizando .NET Core 2 com Entity Framework, MySql e Swagger.
 2. Configurar uma variável de ambiente 'DATABASE_CONNECTION', contendo uma connection-string mysql válida, exemplo:
 > "server=localhost;port=3306;database=mydatabase;uid=myuser;password=123456"
    
-3. Realizar o mapeamento das entidades utilizando Scaffolding, executando o comando a seguinte no console 'Package Manager Console' do Visual Studio, substituindo '\<connection-string\>' pela sua connection do MySql:
-> "Scaffold-DbContext "\<connection-string\>" "Pomelo.EntityFrameworkCore.MySql" -o Model"
+3. (APENAS NECESSARIO QUANDO FOR RECRIAR O BANCO DE DADOS) 
+   Realizar o mapeamento das entidades utilizando Scaffolding, executando o comando a seguinte no console 'Package Manager Console' do Visual Studio,
+   substituindo '<connection-string>' pela sua connection do MySql:
+> "Scaffold-DbContext "<connection-string>" "Pomelo.EntityFrameworkCore.MySql" -o Model -f"

@@ -14,7 +14,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DATABASE_CONNECTION": "server=localhost;port=3306;database=dbloja;uid=root;password=123456"
+        "DATABASE_CONNECTION": "server=192.168.99.101;port=3306;database=dbarchib;uid=root;password=123456"
       }
     },
     "incommerce-controller-usuario": {
@@ -23,7 +23,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DATABASE_CONNECTION": "server=localhost;port=3306;database=dbloja;uid=root;password=123456"
+        "DATABASE_CONNECTION": "server=localhost;port=3306;database=dbarchib;uid=root;password=123456"
       },
       "applicationUrl": "http://localhost:55600/"
     }

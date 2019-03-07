@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace incommerce.controller.usuario
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/cadastro/usuarios")]
     [ApiController]
-    public class UsuarioController : BaseController
+    public class UsuariosController : BaseController
     {
         private readonly DBContext db;
 
@@ -17,7 +17,7 @@ namespace incommerce.controller.usuario
         /// Construtor para api/usuario
         /// </summary>
         /// <param name="db">Contexto do banco de dados</param>
-        public UsuarioController(DBContext db)
+        public UsuariosController(DBContext db)
         {
             this.db = db;
         }
@@ -29,7 +29,7 @@ namespace incommerce.controller.usuario
         /// <param name="password">Senha</param>
         /// <returns>Objeto usuário.</returns>
         /// <response code="404">Retorna nulo se o usuário é null.</response>
-        [HttpPost("logged")]
+        [HttpPost("validar")]
         [ProducesResponseType(404)]
         public ActionResult<Usuarios> Logged(string username, string password)
         {
@@ -51,7 +51,7 @@ namespace incommerce.controller.usuario
         /// <param name="id">Identificador</param>
         /// <returns>Objeto usuário.</returns>
         /// <response code="404">Retorna nulo se o usuário é null.</response>
-        [HttpGet("get/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(404)]
         public ActionResult<Usuarios> Get(int id)
         {
@@ -71,7 +71,7 @@ namespace incommerce.controller.usuario
         /// <param name="username">Login</param>
         /// <returns>Objeto usuário.</returns>
         /// <response code="404">Retorna nulo se o usuário é null.</response>
-        [HttpGet("getByUsername/{username}")]
+        [HttpGet("{username}/login")]
         [ProducesResponseType(404)]
         public ActionResult<Usuarios> GetByUsername(string username)
         {
@@ -86,31 +86,11 @@ namespace incommerce.controller.usuario
         }
 
         /// <summary>
-        /// Busca lista de usuários pelo seu identificador único.
-        /// </summary>
-        /// <param name="id">Identificador único</param>
-        /// <returns>Lista de objetos usuários.</returns>
-        /// <response code="404">Retorna nulo se a lista é vazia.</response>
-        [HttpGet("getList/{id}")]
-        [ProducesResponseType(404)]
-        public ActionResult<List<Usuarios>> GetList(int id)
-        {
-            var usuarios = (from c in db.Usuarios
-                            where c.Idusuario.Equals(id)
-                            select c)
-                            //.Include(o => o.Perfis)
-                            .ToList();
-
-            if (usuarios.Equals(null) || usuarios.Count <= 0) return NotFound();
-            return usuarios;
-        }
-
-        /// <summary>
         /// Busca lista de usuários ativos no sistema.
         /// </summary>
         /// <returns>Lista de objetos usuários.</returns>
         /// <response code="404">Retorna nulo se a lista é vazia.</response>
-        [HttpGet("getAllAtivo")]
+        [HttpGet("ativos")]
         [ProducesResponseType(404)]
         public ActionResult<List<Usuarios>> GetAllAtivos()
         {
@@ -120,7 +100,7 @@ namespace incommerce.controller.usuario
                     .OrderBy(o => o.Login)
                     .ToList();
 
-            if (usuarios.Equals(null) || usuarios.Count <= 0) return NotFound();
+            if (usuarios.Equals(null) || usuarios.Count() <= 0) return NotFound();
             return usuarios;
         }
 
@@ -129,7 +109,7 @@ namespace incommerce.controller.usuario
         /// </summary>
         /// <returns>Lista de objetos usuários.</returns>
         /// <response code="404">Retorna nulo nulo se a lista é vazia.</response>
-        [HttpGet("getAll")]
+        [HttpGet("")]
         [ProducesResponseType(404)]
         public ActionResult<List<Usuarios>> GetAll()
         {
@@ -138,7 +118,7 @@ namespace incommerce.controller.usuario
                 .OrderBy(o => o.Login)
                 .ToList();
 
-            if (usuarios.Equals(null) || usuarios.Count <= 0) return NotFound();
+            if (usuarios.Equals(null) || usuarios.Count() <= 0) return NotFound();
             return usuarios;
         }
 
@@ -148,7 +128,7 @@ namespace incommerce.controller.usuario
         /// <param name="id">Identificador único do usuário</param>
         /// <param name="usuario">Objeto usuário contendo os novos dados</param>
         /// <returns>Objeto usuário atualizado.</returns>
-        [HttpPut("update/{id}")]
+        [HttpPut("{id}/atualizar")]
         public ActionResult<Usuarios> Update(int id, [FromBody]Usuarios usuario)
         {
             var data = this.Get(id);
@@ -159,9 +139,6 @@ namespace incommerce.controller.usuario
             data.Value.Login = usuario.Login;
             data.Value.Senha = usuario.Senha;
             data.Value.Cpf = usuario.Cpf;
-            data.Value.IndAtivo = usuario.IndAtivo;
-            data.Value.Idrevendedora = usuario.Idrevendedora;
-            data.Value.Idperfil = usuario.Idperfil;
 
             db.Usuarios.Update(data.Value);
             db.SaveChanges();
@@ -174,7 +151,7 @@ namespace incommerce.controller.usuario
         /// </summary>
         /// <param name="usuario">Objeto usuário</param>
         /// <returns>Objeto usuário criado.</returns>
-        [HttpPost("insert")]
+        [HttpPost("inserir")]
         public Usuarios Insert([FromBody]Usuarios usuario)
         {
             var _new = new Usuarios();
@@ -182,9 +159,6 @@ namespace incommerce.controller.usuario
             _new.Login = usuario.Login;
             _new.Senha = usuario.Senha;
             _new.Cpf = usuario.Cpf;
-            _new.IndAtivo = usuario.IndAtivo;
-            _new.Idrevendedora = usuario.Idrevendedora;
-            _new.Idperfil = usuario.Idperfil;
 
             db.Usuarios.Add(_new);
             db.SaveChanges();
@@ -197,7 +171,7 @@ namespace incommerce.controller.usuario
         /// </summary>
         /// <param name="id">Identificador único</param>
         /// <returns>True|False</returns>
-        [HttpGet("delete/{id}")]
+        [HttpGet("{id}/deletar")]
         public bool Delete(int id)
         {
             try
@@ -232,8 +206,8 @@ namespace incommerce.controller.usuario
 
                 /// TODO: Verificar se essa relacao funcionara no .NET Core
                 /// Remove todas as relacoes com as marcas desse usuário.
-                db.UsuarioMarcas.Where(o => o.Idusuario.Equals(id)).ToList()
-                    .ForEach(o => db.UsuarioMarcas.Remove(o));
+                //db.UsuarioMarcas.Where(o => o.Idusuario.Equals(id)).ToList()
+                //    .ForEach(o => db.UsuarioMarcas.Remove(o));
             }
             catch
             {
