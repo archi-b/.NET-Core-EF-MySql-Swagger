@@ -1,5 +1,4 @@
 ﻿using controller.usuario.Config;
-using controller.usuario.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,10 +24,10 @@ namespace incommerce.controller.usuario
             services.AddRouting();
             services.AddCors();
 
-            services.AddDbContext<DBContext>(options =>
-                   options.UseMySql(
-                       Environment.GetEnvironmentVariable("DATABASE_CONNECTION")
-                   ));
+            //services.AddDbContext<DBContext>(options =>
+            //       options.UseMySql(
+            //           Environment.GetEnvironmentVariable("DATABASE_CONNECTION")
+            //       ));
 
             services.AddMvc();
             services.AddSwaggerGen(new SwaggerConfig().ConfigureServiceSwaggerGen());

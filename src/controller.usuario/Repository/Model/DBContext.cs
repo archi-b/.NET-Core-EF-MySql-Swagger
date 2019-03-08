@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace controller.usuario.Model
+namespace Usuarios.Repository.Model
 {
     public partial class DBContext : DbContext
     {
@@ -15,17 +15,20 @@ namespace controller.usuario.Model
         {
         }
 
-        public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<Usuario> Usuario { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+                optionsBuilder.UseMySql(Environment.GetEnvironmentVariable("DATABASE_CONNECTION"));
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuarios>(entity =>
+            modelBuilder.Entity<Usuario>(entity =>
             {
-                entity.HasKey(e => e.Idusuario)
+                entity.HasKey(e => e.Id)
                     .HasName("PRIMARY");
 
                 entity.HasIndex(e => e.Email)
@@ -36,8 +39,8 @@ namespace controller.usuario.Model
                     .HasName("Login_UNIQUE")
                     .IsUnique();
 
-                entity.Property(e => e.Idusuario)
-                    .HasColumnName("IDUsuario")
+                entity.Property(e => e.Id)
+                    .HasColumnName("Id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.Cpf).HasColumnType("varchar(14)");

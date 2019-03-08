@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 
-namespace controller.usuario.Controllers
+namespace Usuarios.Controllers
 {
-    public class BaseController : Controller
+    public class BaseController : ControllerBase
     {
         /// <summary>
         /// Construtor BaseController.

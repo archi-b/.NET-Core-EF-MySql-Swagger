@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 
-namespace incommerce.controller.usuario
+namespace Usuarios.Controllers
 {
     [Route("api/[controller]")]
     public class HelthController : Controller
