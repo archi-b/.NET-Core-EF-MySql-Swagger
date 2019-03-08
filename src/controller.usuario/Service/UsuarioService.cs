@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Usuarios.Dto;
 using Usuarios.Repository;
 using Usuarios.Repository.Model;
+using Usuarios.Utils;
 
 namespace Usuarios.Service
 {
@@ -11,11 +13,9 @@ namespace Usuarios.Service
     {
         private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
-        public Usuario validarUsuario(string username, string password)
+        public UsuarioDTO validarUsuario(string username, string password)
         {
-            return usuarioRepository.Select()
-                .Where((c) => c.Login.Equals(username) && c.Senha.Equals(password))
-                .FirstOrDefault();
+            return JsonHelper.toObject<UsuarioDTO>(usuarioRepository.validarUsuario(username, password));
         }
     }
 }

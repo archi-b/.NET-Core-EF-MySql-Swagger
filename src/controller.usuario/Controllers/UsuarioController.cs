@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Usuarios.Dto;
 using Usuarios.Service;
-using Usuarios.Utils;
 
 namespace Usuarios.Controllers
 {
@@ -22,7 +21,7 @@ namespace Usuarios.Controllers
         [ProducesResponseType(404)]
         public ActionResult<UsuarioDTO> ValidarUsuario(string username, string password)
         {
-            var usuario = JsonHelper.toObject<UsuarioDTO>(this.usuarioService.validarUsuario(username, password));
+            var usuario = this.usuarioService.validarUsuario(username, password);
 
             if (usuario == null) return NotFound();
             return usuario;
